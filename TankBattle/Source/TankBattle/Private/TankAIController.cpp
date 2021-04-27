@@ -29,9 +29,9 @@ void ATankAIController::BeginPlay() {
 
 void ATankAIController::Tick(float DeltaTime) {
 	// every tick the AI tank is looking for the player tank
-	GetControlledTank()->AimAt(GetPlayerTank()->GetTargetLocation());
+	GetControlledTank()->AimAt(GetPlayerTank()->GetActorLocation());
 	// draw the debug line
-	DrawDebugLine(GetWorld(), GetControlledTank()->GetTargetLocation(), GetPlayerTank()->GetTargetLocation(), FColor(255, 0, 0), false, -1.0f, 1.0f, 20.0f);
+	DrawDebugLine(GetWorld(), GetControlledTank()->GetActorLocation(), GetPlayerTank()->GetActorLocation(), FColor(255, 0, 0), false, -1.0f, 1.0f, 20.0f);
 }
 
 ATank* ATankAIController::GetControlledTank() const {
