@@ -2,6 +2,7 @@
 
 
 #include "TankAIController.h"
+#include <Runtime/Engine/Public/DrawDebugHelpers.h>
 
 void ATankAIController::BeginPlay() {
 
@@ -24,6 +25,13 @@ void ATankAIController::BeginPlay() {
 	else {
 		UE_LOG(LogTemp, Warning, TEXT("AI controller is aiming at %s"), *PlayerTank->GetName())
 	}
+}
+
+void ATankAIController::Tick(float DeltaTime) {
+	// every tick the AI tank is looking for the player tank
+	GetControlledTank()->AimAt(GetPlayerTank()->GetTargetLocation());
+	// draw the debug line
+	DrawDebugLine(GetWorld(), GetControlledTank()->GetTargetLocation(), GetPlayerTank()->GetTargetLocation(), FColor(255, 0, 0), false, -1.0f, 1.0f, 20.0f);
 }
 
 ATank* ATankAIController::GetControlledTank() const {

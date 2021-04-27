@@ -23,5 +23,7 @@ private:
 	// virtual: my children can also inherit from me
 	// override: I will inherit from my parent with same function but change logic.
 	virtual void BeginPlay() override;
+
+	virtual void Tick(float DeltaTime) override;
 	
 };
