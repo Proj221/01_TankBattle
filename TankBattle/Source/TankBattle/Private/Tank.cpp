@@ -41,6 +41,13 @@ void ATank::AimAt(FVector OUTHitLocation) {
 	// E_LOG(LogTemp, Warning, TEXT("%s is aiming at: %s"), *OurTankName, *OUTHitLocation.ToString());
 
 	// change the print out to aiming component
-	TankAimingComponent->AimAt(GetName(), OUTHitLocation);
+	TankAimingComponent->AimAt(GetName(), OUTHitLocation, LaunchSpeed);
 }
+
+
+void ATank::SetBarrelReference(UStaticMeshComponent* BarrelToSet) {
+	TankAimingComponent->SetBarrelReference(BarrelToSet);
+}
+
+
 
