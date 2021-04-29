@@ -1,7 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
+#include "Kismet/GameplayStatics.h"
+#include "TankBarrel.h"
 #include "TankAimingComponent.h"
+
 
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
@@ -32,13 +34,42 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 	// ...
 }
 
-void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent* BarrelToSet) {
+void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet) {
 	Barrel = BarrelToSet;
 }
 
 void UTankAimingComponent::AimAt(FString OurTankName, FVector OUTHitLocation, float LaunchSpeed) {
-	auto BarrelLocation = Barrel->GetComponentLocation();
+	if (!Barrel) { return; }
+
+	// auto BarrelLocation = Barrel->GetComponentLocation();
 	// UE_LOG(LogTemp, Warning, TEXT("%s is aiming at: %s from %s"), *OurTankName, *OUTHitLocation.ToString(), *BarrelLocation.ToString());
-	UE_LOG(LogTemp, Warning, TEXT("%s is firing at %f"), *OurTankName, LaunchSpeed);
+	// UE_LOG(LogTemp, Warning, TEXT("%s is firing at %f"), *OurTankName, LaunchSpeed);
+
+	FVector OUTLaunchVelocity;
+	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity
+	(
+		this,
+		OUTLaunchVelocity,
+		Barrel->GetSocketLocation(FName("Projectile")),
+		OUTHitLocation,
+		LaunchSpeed,
+		ESuggestProjVelocityTraceOption::DoNotTrace);
+	
+	if (bHaveAimSolution)
+	{
+		auto AimDirection = OUTLaunchVelocity.GetSafeNormal();
+		UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"), *OurTankName, *AimDirection.ToString());
+		MoveBarrelTowards(AimDirection);
+	}
 }
 
+void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection) {
+	// work out the difference between current barrel rotation and aimDirection
+	auto BarrelRotatator = Barrel->GetForwardVector().Rotation();
+	auto AimAsRotatator = AimDirection.Rotation();
+	auto DeltaRotator = AimAsRotatator - BarrelRotatator;
+	// UE_LOG(LogTemp, Warning, TEXT("AimAsRotator: %s"), *DeltaRotator.ToString());
+
+	Barrel->Elevate(5); //TODO remove magic number
+
+}
