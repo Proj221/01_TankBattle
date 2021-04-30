@@ -2,7 +2,9 @@
 
 
 #include "TankPlayerController.h"
+#include "Tank.h"
 #include <Runtime/Engine/Public/DrawDebugHelpers.h>
+
 
 void ATankPlayerController::BeginPlay() {
 

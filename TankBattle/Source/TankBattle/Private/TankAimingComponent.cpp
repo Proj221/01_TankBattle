@@ -10,7 +10,7 @@ UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = true;	// TODO should this tick???
 
 	// ...
 }
@@ -53,13 +53,22 @@ void UTankAimingComponent::AimAt(FString OurTankName, FVector OUTHitLocation, fl
 		Barrel->GetSocketLocation(FName("Projectile")),
 		OUTHitLocation,
 		LaunchSpeed,
-		ESuggestProjVelocityTraceOption::DoNotTrace);
+		false,
+		0.0,
+		0.0,
+		ESuggestProjVelocityTraceOption::DoNotTrace); // comment this line to produce BUG! However, if we have this line, we found that even the barrel is pointing to the sky, the aim still counts!
 	
 	if (bHaveAimSolution)
 	{
 		auto AimDirection = OUTLaunchVelocity.GetSafeNormal();
-		UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"), *OurTankName, *AimDirection.ToString());
+		// UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"), *OurTankName, *AimDirection.ToString());
 		MoveBarrelTowards(AimDirection);
+		auto Time = GetWorld()->GetTimeSeconds();
+		UE_LOG(LogTemp, Warning, TEXT("Aim Solution Found!"), Time);
+	}
+	else {
+		auto Time = GetWorld()->GetTimeSeconds();
+		UE_LOG(LogTemp, Warning, TEXT("No Aim Found!"), Time);
 	}
 }
 
@@ -70,6 +79,6 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection) {
 	auto DeltaRotator = AimAsRotatator - BarrelRotatator;
 	// UE_LOG(LogTemp, Warning, TEXT("AimAsRotator: %s"), *DeltaRotator.ToString());
 
-	Barrel->Elevate(5); //TODO remove magic number
+	Barrel->Elevate(1); //TODO remove magic number
 
 }

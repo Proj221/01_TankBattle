@@ -2,19 +2,22 @@
 
 
 #include "Tank.h"
+#include "TankAimingComponent.h"
 
 
 // Sets default values
 ATank::ATank()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	// change the tank tick to FALSE, remove the tick method in .h
+	PrimaryActorTick.bCanEverTick = false;
 
 	// no need to add protection to pointers as added at constructor
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
 
 }
 
+/*
 // Called when the game starts or when spawned
 void ATank::BeginPlay()
 {
@@ -28,6 +31,7 @@ void ATank::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
+*/
 
 // Called to bind functionality to input
 void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
