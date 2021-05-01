@@ -63,8 +63,8 @@ void UTankAimingComponent::AimAt(FString OurTankName, FVector OUTHitLocation, fl
 		auto AimDirection = OUTLaunchVelocity.GetSafeNormal();
 		// UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"), *OurTankName, *AimDirection.ToString());
 		MoveBarrelTowards(AimDirection);
-		auto Time = GetWorld()->GetTimeSeconds();
-		UE_LOG(LogTemp, Warning, TEXT("Aim Solution Found!"), Time);
+		// auto Time = GetWorld()->GetTimeSeconds();
+		// UE_LOG(LogTemp, Warning, TEXT("Aim Solution Found!"), Time);
 	}
 	else {
 		auto Time = GetWorld()->GetTimeSeconds();
@@ -79,6 +79,6 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection) {
 	auto DeltaRotator = AimAsRotatator - BarrelRotatator;
 	// UE_LOG(LogTemp, Warning, TEXT("AimAsRotator: %s"), *DeltaRotator.ToString());
 
-	Barrel->Elevate(1); //TODO remove magic number
+	Barrel->Elevate(DeltaRotator.Pitch); // the pitch angle will be clamped in the tank barrel elevate.
 
 }
