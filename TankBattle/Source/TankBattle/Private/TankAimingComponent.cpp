@@ -2,6 +2,7 @@
 
 #include "Kismet/GameplayStatics.h"
 #include "TankBarrel.h"
+#include "TankTurret.h"
 #include "TankAimingComponent.h"
 
 
@@ -38,8 +39,17 @@ void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet) {
 	Barrel = BarrelToSet;
 }
 
+void UTankAimingComponent::SetTurretReference(UTankTurret* TurretToSet) {
+	Turret = TurretToSet;
+}
+
 void UTankAimingComponent::AimAt(FString OurTankName, FVector OUTHitLocation, float LaunchSpeed) {
-	if (!Barrel) { return; }
+	if (!Barrel) { 
+		UE_LOG(LogTemp, Warning, TEXT("Barrel Is Missing!"));
+		return; }
+	if (!Turret) { 
+		UE_LOG(LogTemp, Warning, TEXT("Turret Is Missing!"));
+		return; }
 
 	// auto BarrelLocation = Barrel->GetComponentLocation();
 	// UE_LOG(LogTemp, Warning, TEXT("%s is aiming at: %s from %s"), *OurTankName, *OUTHitLocation.ToString(), *BarrelLocation.ToString());
@@ -63,6 +73,7 @@ void UTankAimingComponent::AimAt(FString OurTankName, FVector OUTHitLocation, fl
 		auto AimDirection = OUTLaunchVelocity.GetSafeNormal();
 		// UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"), *OurTankName, *AimDirection.ToString());
 		MoveBarrelTowards(AimDirection);
+		MoveTurretTowards(AimDirection);
 		// auto Time = GetWorld()->GetTimeSeconds();
 		// UE_LOG(LogTemp, Warning, TEXT("Aim Solution Found!"), Time);
 	}
@@ -77,8 +88,17 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection) {
 	auto BarrelRotatator = Barrel->GetForwardVector().Rotation();
 	auto AimAsRotatator = AimDirection.Rotation();
 	auto DeltaRotator = AimAsRotatator - BarrelRotatator;
-	// UE_LOG(LogTemp, Warning, TEXT("AimAsRotator: %s"), *DeltaRotator.ToString());
+	// UE_LOG(LogTemp, Warning, TEXT("BarrelAimAsRotator: %s"), *DeltaRotator.ToString());
 
 	Barrel->Elevate(DeltaRotator.Pitch); // the pitch angle will be clamped in the tank barrel elevate.
+}
 
+void UTankAimingComponent::MoveTurretTowards(FVector AimDirection) {
+	// work out the difference between current barrel rotation and aimDirection
+	auto TurretRotator = Turret->GetForwardVector().Rotation();
+	auto AimAsRotatator = AimDirection.Rotation();
+	auto DeltaRotator = AimAsRotatator - TurretRotator;
+	UE_LOG(LogTemp, Warning, TEXT("TurretAimAsRotator: %s"), *DeltaRotator.ToString());
+
+	Turret->Rotate(DeltaRotator.Yaw); // the yaw angle will be clamped in the tank turret rotate.
 }

@@ -13,6 +13,6 @@ void UTankBarrel::Elevate(float RelativeSpeed) {
 	auto ElevationChange = RelativeSpeed * MaxDegreesPerSecond * GetWorld()->DeltaTimeSeconds;
 	auto RawNewElevation = GetRelativeRotation().Pitch + ElevationChange;
 	auto ClampedElevation = FMath::Clamp<float>(RawNewElevation, MinDegreesElevation, MaxDegreesElevation);
-	UE_LOG(LogTemp, Warning, TEXT("IN ROTATION TO: %f!"), ClampedElevation);
+	// UE_LOG(LogTemp, Warning, TEXT("BARREL IN ELEVATION TO: %f!"), ClampedElevation);
 	SetRelativeRotation(FRotator(ClampedElevation, 0, 0));
 }
