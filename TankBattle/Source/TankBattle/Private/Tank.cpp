@@ -42,7 +42,7 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void ATank::AimAt(FVector OUTHitLocation) {
 	// auto OurTankName = GetName();
-	// E_LOG(LogTemp, Warning, TEXT("%s is aiming at: %s"), *OurTankName, *OUTHitLocation.ToString());
+	// UE_LOG(LogTemp, Warning, TEXT("%s is aiming at: %s"), *OurTankName, *OUTHitLocation.ToString());
 
 	// change the print out to aiming component
 	TankAimingComponent->AimAt(GetName(), OUTHitLocation, LaunchSpeed);
@@ -55,6 +55,10 @@ void ATank::SetBarrelReference(UTankBarrel* BarrelToSet) {
 
 void ATank::SetTurretReference(UTankTurret* TurretToSet) {
 	TankAimingComponent->SetTurretReference(TurretToSet);
+}
+
+void ATank::SetFire() {
+	UE_LOG(LogTemp, Warning, TEXT("FIRING!"));
 }
 
 
