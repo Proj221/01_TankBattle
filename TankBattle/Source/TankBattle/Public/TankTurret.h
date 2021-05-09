@@ -18,15 +18,9 @@ class TANKBATTLE_API UTankTurret : public UStaticMeshComponent
 
 public:
 	void Rotate(float RelativeSpeed);
-
+	
 private:
 	UPROPERTY(EditAnywhere, Category = Setup)
-	float MaxDegreesPerSecond = 5;	//sensible default
-
-	UPROPERTY(EditAnywhere, Category = Setup)
-	float MaxDegreesRotation = 90;	//TODO set
-
-	UPROPERTY(EditAnywhere, Category = Setup)
-	float MinDegreesRotation = -90;	//TODO set
+	float MaxDegreesPerSecond = 25;	//sensible default
 	
 };

@@ -11,7 +11,7 @@ UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;	// TODO should this tick???
+	PrimaryComponentTick.bCanEverTick = false;	//  should this tick??? NO
 
 	// ...
 }
@@ -95,10 +95,19 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection) {
 
 void UTankAimingComponent::MoveTurretTowards(FVector AimDirection) {
 	// work out the difference between current barrel rotation and aimDirection
-	auto TurretRotator = Turret->GetForwardVector().Rotation();
+	auto TurretRotator = Barrel->GetForwardVector().Rotation();
 	auto AimAsRotatator = AimDirection.Rotation();
 	auto DeltaRotator = AimAsRotatator - TurretRotator;
-	UE_LOG(LogTemp, Warning, TEXT("TurretAimAsRotator: %s"), *DeltaRotator.ToString());
 
-	Turret->Rotate(DeltaRotator.Yaw); // the yaw angle will be clamped in the tank turret rotate.
+	// UE_LOG(LogTemp, Warning, TEXT("TurretAimAsRotator: %s"), *DeltaRotator.ToString());
+
+	// here is to avoid the turret to rotate in the shortest way
+	// avoid to yaw in the long way
+	if (FMath::Abs(DeltaRotator.Yaw) < 180) {
+		Turret->Rotate(DeltaRotator.Yaw);
+	}
+	else {
+		Turret->Rotate(-DeltaRotator.Yaw); // the yaw angle will be clamped in the tank turret rotate.
+	}
+	
 }
