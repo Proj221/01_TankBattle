@@ -10,6 +10,7 @@
 class UTankAimingComponent;
 class UTankBarrel; // Forward Declaration
 class UTankTurret;
+class AProjectile;
 
 UCLASS()
 class TANKBATTLE_API ATank : public APawn
@@ -44,4 +45,16 @@ private:
 	UPROPERTY(EditAnywhere, Category = Firing)
 	float LaunchSpeed = 100000; // sensible starting value, 1000 m/s
 
+	UPROPERTY(EditAnywhere, Category = Setup)
+	// UClass* ProjectileBlueprint; // Alternative...A
+	TSubclassOf<AProjectile> ProjectileBlueprint; // Alternative...B
+
+	// this is a loca var to indicate tank barrel, besides this, there is a setter to tankAimingComponent for passing a global barrel var
+	// local barrel reference for spawning projectile
+	UTankBarrel* Barrel = nullptr;
+
+	// set fire rate
+	float ReloadTimeInSecond = 3;
+
+	double LastFireTime = 0;
 };

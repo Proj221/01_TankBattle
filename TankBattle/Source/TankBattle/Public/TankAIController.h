@@ -19,9 +19,6 @@ class TANKBATTLE_API ATankAIController : public AAIController
 
 
 private:
-	ATank* GetControlledTank() const;
-	ATank* GetPlayerTank() const;
-
 	// virtual: my children can also inherit from me
 	// override: I will inherit from my parent with same function but change logic.
 	virtual void BeginPlay() override;

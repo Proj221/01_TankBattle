@@ -78,8 +78,8 @@ void UTankAimingComponent::AimAt(FString OurTankName, FVector OUTHitLocation, fl
 		// UE_LOG(LogTemp, Warning, TEXT("Aim Solution Found!"), Time);
 	}
 	else {
-		auto Time = GetWorld()->GetTimeSeconds();
-		UE_LOG(LogTemp, Warning, TEXT("No Aim Found!"), Time);
+		// auto Time = GetWorld()->GetTimeSeconds();
+		// UE_LOG(LogTemp, Warning, TEXT("No Aim Found!"), Time);
 	}
 }
 
