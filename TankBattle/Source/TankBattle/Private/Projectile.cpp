@@ -34,4 +34,6 @@ void AProjectile::LaunchProjectile(float Speed) {
 	// FVector::ForwardVector is the forward vector to the projectile itself, the vectors are same as the barrel socket vector as the projectile is spawned from the barrel socket.
 	ProjectileMovement->SetVelocityInLocalSpace(FVector::ForwardVector * Speed);
 	ProjectileMovement->Activate();
+
+
 }
