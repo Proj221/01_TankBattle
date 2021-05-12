@@ -19,6 +19,10 @@ void ATankAIController::Tick(float DeltaTime) {
 
 
 	if (PlayerTank && ControlledTank) {
+		// Move to player
+		MoveToActor(PlayerTank, AcceptanceRadius);
+
+
 		// every tick the AI tank is looking for the player tank
 		ControlledTank->AimAt(PlayerTank->GetActorLocation());
 		// draw the debug line

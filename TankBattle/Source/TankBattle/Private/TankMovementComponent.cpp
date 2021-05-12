@@ -18,6 +18,7 @@ void UTankMovementComponent::IntendMove(float Throw, float Lateral) {
 	//	0		S, L - , R -		NULL, L0, R0		W, L + , R +
 	//	1		S + A, L + , R -	A, L0, R0			W + A, L - , R +
 
+	if (!LeftTrack || !RightTrack) { return; }
 	
 	if (Throw) {	// if throw = 0, never move positively
 		UE_LOG(LogTemp, Warning, TEXT("MOVE LONGITUDINAL with Throw: %f"), Throw);
@@ -32,4 +33,11 @@ void UTankMovementComponent::IntendMove(float Throw, float Lateral) {
 		
 	}
 
+}
+
+void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) {
+	// no need to call super as it is replacing the logic here
+
+	auto TankName = GetOwner()->GetName();
+	UE_LOG(LogTemp, Warning, TEXT("Tank: %s is moving at Velocity: %s"), *TankName, *MoveVelocity.ToString());
 }
