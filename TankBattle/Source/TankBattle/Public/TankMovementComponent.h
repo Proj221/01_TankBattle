@@ -22,7 +22,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void Initialize(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet);
 	UFUNCTION(BlueprintCallable, Category = Input)
-	void IntendMove(float Throw, float Lateral);
+	void IntendMoveForward(float Throw);
+	UFUNCTION(BlueprintCallable, Category = Input)
+	void IntendTurnRight(float Throw);
 
 	// TODO check best protection
 	// path following: request new velocity, engine embedded function

@@ -10,7 +10,9 @@ void UTankMovementComponent::Initialize(UTankTrack* LeftTrackToSet, UTankTrack* 
 	RightTrack = RightTrackToSet;
 }
 
-void UTankMovementComponent::IntendMove(float Throw, float Lateral) {
+// DOES NOT WORK!!!
+/*
+void UTankMovementComponent::IntendMove(float Throw) { // NOT WORK!!!
 
 	//throw		- 1					0					1
 	//lateral
@@ -21,7 +23,7 @@ void UTankMovementComponent::IntendMove(float Throw, float Lateral) {
 	if (!LeftTrack || !RightTrack) { return; }
 	
 	if (Throw) {	// if throw = 0, never move positively
-		UE_LOG(LogTemp, Warning, TEXT("MOVE LONGITUDINAL with Throw: %f"), Throw);
+		// UE_LOG(LogTemp, Warning, TEXT("MOVE LONGITUDINAL with Throw: %f"), Throw);
 		if (Lateral) {
 			LeftTrack->SetThrottle(-Throw * Lateral);
 			RightTrack->SetThrottle(Throw * Lateral);
@@ -34,10 +36,36 @@ void UTankMovementComponent::IntendMove(float Throw, float Lateral) {
 	}
 
 }
+*/
+
+void UTankMovementComponent::IntendMoveForward(float Throw) {
+	if (!LeftTrack || !RightTrack) { return; }
+	LeftTrack->SetThrottle(Throw);
+	RightTrack->SetThrottle(Throw);
+
+}
+
+void UTankMovementComponent::IntendTurnRight(float Throw) {
+	if (!LeftTrack || !RightTrack) { return; }
+	LeftTrack->SetThrottle(Throw);
+	RightTrack->SetThrottle(-Throw);
+}
 
 void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) {
 	// no need to call super as it is replacing the logic here
 
-	auto TankName = GetOwner()->GetName();
-	UE_LOG(LogTemp, Warning, TEXT("Tank: %s is moving at Velocity: %s"), *TankName, *MoveVelocity.ToString());
+	auto AIForwardIntention = MoveVelocity.GetSafeNormal();
+
+	// auto TankName = GetOwner()->GetName();
+	// UE_LOG(LogTemp, Warning, TEXT("Tank: %s is moving at Velocity: %s"), *TankName, *AIForwardIntention.ToString());
+
+	auto TankForward = GetOwner()->GetActorForwardVector().GetSafeNormal();
+
+	auto ThrowProd = FVector::DotProduct(AIForwardIntention, TankForward);
+	auto LateralCross = FVector::CrossProduct(AIForwardIntention, TankForward).Z;
+	UE_LOG(LogTemp, Warning, TEXT("Tank ThrowProd: %f, LateralCross: %f"), ThrowProd, LateralCross);
+
+	IntendMoveForward(ThrowProd);
+	IntendTurnRight(LateralCross);
+
 }
