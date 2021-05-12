@@ -17,7 +17,9 @@ ATank::ATank()
 
 	// no need to add protection to pointers as added at constructor
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
-	TankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("Movement Component"));
+	
+	// TankMovementComponent is removed to a composite of the tank_bp, if this is not commented, the tankmovementcompoenet is considered like tankaimingcomponent, as a subobject
+	//TankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("Movement Component"));
 
 }
 
