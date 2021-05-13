@@ -41,10 +41,10 @@ void UTankAimingComponent::Initialize(UTankBarrel* BarrelToSet, UTankTurret* Tur
 }
 
 void UTankAimingComponent::AimAt(FString OurTankName, FVector OUTHitLocation, float LaunchSpeed) {
-	if (!Barrel) { 
+	if (!ensure(Barrel)) { 
 		UE_LOG(LogTemp, Warning, TEXT("Barrel Is Missing!"));
 		return; }
-	if (!Turret) { 
+	if (!ensure(Turret)) { 
 		UE_LOG(LogTemp, Warning, TEXT("Turret Is Missing!"));
 		return; }
 
@@ -92,11 +92,11 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection) {
 
 void UTankAimingComponent::MoveTurretTowards(FVector AimDirection) {
 
-	if (!Barrel) {
+	if (!ensure(Barrel)) {
 		UE_LOG(LogTemp, Warning, TEXT("Barrel Is Missing!"));
 		return;
 	}
-	if (!Turret) {
+	if (!ensure(Turret)) {
 		UE_LOG(LogTemp, Warning, TEXT("Turret Is Missing!"));
 		return;
 	}

@@ -56,7 +56,7 @@ void ATank::AimAt(FVector OUTHitLocation) {
 
 	// change the print out to aiming component
 	// protect the pointer!!!!
-	if (!TankAimingComponent) { return; }
+	if (!ensure(TankAimingComponent)) { return; }
 	TankAimingComponent->AimAt(GetName(), OUTHitLocation, LaunchSpeed);
 }
 
