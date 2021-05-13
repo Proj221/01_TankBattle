@@ -45,6 +45,8 @@ void ATank::AimAt(FVector OUTHitLocation) {
 	// UE_LOG(LogTemp, Warning, TEXT("%s is aiming at: %s"), *OurTankName, *OUTHitLocation.ToString());
 
 	// change the print out to aiming component
+	// protect the pointer!!!!
+	if (!TankAimingComponent) { return; }
 	TankAimingComponent->AimAt(GetName(), OUTHitLocation, LaunchSpeed);
 }
 
