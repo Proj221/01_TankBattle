@@ -63,7 +63,7 @@ void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool
 
 	auto ThrowProd = FVector::DotProduct(AIForwardIntention, TankForward);
 	auto LateralCross = FVector::CrossProduct(AIForwardIntention, TankForward).Z;
-	UE_LOG(LogTemp, Warning, TEXT("Tank ThrowProd: %f, LateralCross: %f"), ThrowProd, LateralCross);
+	// UE_LOG(LogTemp, Warning, TEXT("Tank ThrowProd: %f, LateralCross: %f"), ThrowProd, LateralCross);
 
 	IntendMoveForward(ThrowProd);
 	IntendTurnRight(LateralCross);

@@ -18,9 +18,11 @@ class TANKBATTLE_API ATankPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 
-public:
+private:
+	UFUNCTION(BlueprintCallable, Category = Setup)
 	ATank* GetControlledTank() const;
 
+public:
 	// virtual: my children can also inherit from me
 	// override: I will inherit from my parent with same function but change logic.
 	virtual void BeginPlay() override;
