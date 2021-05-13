@@ -16,7 +16,7 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 
 	// no need to add protection to pointers as added at constructor
-	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
+	// TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
 	
 	// TankMovementComponent is removed to a composite of the tank_bp, if this is not commented, the tankmovementcompoenet is considered like tankaimingcomponent, as a subobject
 	//TankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("Movement Component"));
@@ -39,12 +39,6 @@ void ATank::Tick(float DeltaTime)
 }
 */
 
-// Called to bind functionality to input
-void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-}
 
 void ATank::AimAt(FVector OUTHitLocation) {
 	// auto OurTankName = GetName();
@@ -54,15 +48,6 @@ void ATank::AimAt(FVector OUTHitLocation) {
 	TankAimingComponent->AimAt(GetName(), OUTHitLocation, LaunchSpeed);
 }
 
-
-void ATank::SetBarrelReference(UTankBarrel* BarrelToSet) {
-	TankAimingComponent->SetBarrelReference(BarrelToSet);
-	Barrel = BarrelToSet;
-}
-
-void ATank::SetTurretReference(UTankTurret* TurretToSet) {
-	TankAimingComponent->SetTurretReference(TurretToSet);
-}
 
 void ATank::SetFire() {
 	// UE_LOG(LogTemp, Warning, TEXT("FIRING!"));
