@@ -9,18 +9,22 @@
 
 
 class ATank;
+class UTankAimingComponent;
 
 /**
- * 
+ * helping the player to aim
  */
 UCLASS()
 class TANKBATTLE_API ATankPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 
-private:
+protected:
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	ATank* GetControlledTank() const;
+
+	UFUNCTION(BlueprintImplementableEvent, Category = Setup)
+	void FoundAimingComponent(UTankAimingComponent* AimCompRef);
 
 public:
 	// virtual: my children can also inherit from me
