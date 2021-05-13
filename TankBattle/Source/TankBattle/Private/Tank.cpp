@@ -21,6 +21,16 @@ ATank::ATank()
 	// TankMovementComponent is removed to a composite of the tank_bp, if this is not commented, the tankmovementcompoenet is considered like tankaimingcomponent, as a subobject
 	//TankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("Movement Component"));
 
+	auto TankName = GetName();
+	UE_LOG(LogTemp, Warning, TEXT("%s HUAWEI: TANK CPP CONSTRUCT"), *TankName);
+
+}
+
+void ATank::BeginPlay() {
+	// DO NEED THIS!!!
+	Super::BeginPlay();
+	auto TankName = GetName();
+	UE_LOG(LogTemp, Warning, TEXT("%s HUAWEI: TANK CPP BEGINPLAY"), *TankName);
 }
 
 /*
