@@ -2,9 +2,6 @@
 
 
 #include "Tank.h"
-#include "TankAimingComponent.h"
-#include "TankBarrel.h"
-#include "Projectile.h"
 
 
 // Sets default values
@@ -27,8 +24,6 @@ void ATank::BeginPlay() {
 	Super::BeginPlay();
 	auto TankName = GetName();
 	UE_LOG(LogTemp, Warning, TEXT("%s HUAWEI: TANK CPP BEGINPLAY"), *TankName);
-
-	TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
 }
 
 /*
@@ -46,36 +41,6 @@ void ATank::Tick(float DeltaTime)
 
 }
 */
-
-
-void ATank::AimAt(FVector OUTHitLocation) {
-	// auto OurTankName = GetName();
-	// UE_LOG(LogTemp, Warning, TEXT("%s is aiming at: %s"), *OurTankName, *OUTHitLocation.ToString());
-
-	// change the print out to aiming component
-	// protect the pointer!!!!
-	if (!ensure(TankAimingComponent)) { return; }
-	TankAimingComponent->AimAt(GetName(), OUTHitLocation, LaunchSpeed);
-}
-
-
-void ATank::SetFire() {
-	// UE_LOG(LogTemp, Warning, TEXT("FIRING!"));
-
-	// this is the fire rate calculator
-	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSecond;
-	
-
-	if (Barrel && isReloaded) { 
-		// spawn a projectile if there is a barrel
-		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("Projectile")), Barrel->GetSocketRotation(FName("Projectile")));
-
-		Projectile->LaunchProjectile(LaunchSpeed);
-
-		LastFireTime = FPlatformTime::Seconds();
-	}
-
-}
 
 
 

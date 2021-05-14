@@ -3,6 +3,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "TankBarrel.h"
 #include "TankTurret.h"
+#include "Projectile.h"
 #include "TankAimingComponent.h"
 
 
@@ -40,17 +41,13 @@ void UTankAimingComponent::Initialize(UTankBarrel* BarrelToSet, UTankTurret* Tur
 	Turret = TurretToSet;
 }
 
-void UTankAimingComponent::AimAt(FString OurTankName, FVector OUTHitLocation, float LaunchSpeed) {
+void UTankAimingComponent::AimAt(FVector OUTHitLocation) {
 	if (!ensure(Barrel)) { 
 		UE_LOG(LogTemp, Warning, TEXT("Barrel Is Missing!"));
 		return; }
 	if (!ensure(Turret)) { 
 		UE_LOG(LogTemp, Warning, TEXT("Turret Is Missing!"));
 		return; }
-
-	// auto BarrelLocation = Barrel->GetComponentLocation();
-	// UE_LOG(LogTemp, Warning, TEXT("%s is aiming at: %s from %s"), *OurTankName, *OUTHitLocation.ToString(), *BarrelLocation.ToString());
-	// UE_LOG(LogTemp, Warning, TEXT("%s is firing at %f"), *OurTankName, LaunchSpeed);
 
 	FVector OUTLaunchVelocity;
 	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity
@@ -117,4 +114,22 @@ void UTankAimingComponent::MoveTurretTowards(FVector AimDirection) {
 		Turret->Rotate(-DeltaRotator.Yaw); // the yaw angle will be clamped in the tank turret rotate.
 	}
 	
+}
+
+void UTankAimingComponent::SetFire() {
+	// UE_LOG(LogTemp, Warning, TEXT("FIRING!"));
+
+	// this is the fire rate calculator
+	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSecond;
+
+
+	if (Barrel && isReloaded) {
+		// spawn a projectile if there is a barrel
+		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("Projectile")), Barrel->GetSocketRotation(FName("Projectile")));
+
+		if (!ensure(Projectile)) { return; }
+		Projectile->LaunchProjectile(LaunchSpeed);
+		LastFireTime = FPlatformTime::Seconds();
+	}
+
 }

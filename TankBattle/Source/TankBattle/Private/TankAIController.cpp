@@ -3,6 +3,7 @@
 
 #include "TankAIController.h"
 #include "Tank.h"
+#include "TankAimingComponent.h"
 #include <Runtime/Engine/Public/DrawDebugHelpers.h>
 
 void ATankAIController::BeginPlay() {
@@ -22,12 +23,12 @@ void ATankAIController::Tick(float DeltaTime) {
 		// Move to player
 		MoveToActor(PlayerTank, AcceptanceRadius);
 
-
 		// every tick the AI tank is looking for the player tank
-		ControlledTank->AimAt(PlayerTank->GetActorLocation());
+		ControlledTank->FindComponentByClass<UTankAimingComponent>()->AimAt(PlayerTank->GetActorLocation());
+
 		// draw the debug line
 		// DrawDebugLine(GetWorld(), GetControlledTank()->GetActorLocation(), GetPlayerTank()->GetActorLocation(), FColor(255, 0, 0), false, -1.0f, 1.0f, 20.0f);
-		ControlledTank->SetFire();
+		ControlledTank->FindComponentByClass<UTankAimingComponent>()->SetFire();
 	}
 
 }

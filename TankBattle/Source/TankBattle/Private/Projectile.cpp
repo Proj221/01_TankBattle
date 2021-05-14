@@ -32,8 +32,8 @@ void AProjectile::LaunchProjectile(float Speed) {
 	auto Time = GetWorld()->GetTimeSeconds();
 	// UE_LOG(LogTemp, Warning, TEXT("Time: %f, LAUNCHED Projectile at Speed: %f"), Time, Speed);
 	// FVector::ForwardVector is the forward vector to the projectile itself, the vectors are same as the barrel socket vector as the projectile is spawned from the barrel socket.
-	ProjectileMovement->SetVelocityInLocalSpace(FVector::ForwardVector * Speed);
-	ProjectileMovement->Activate();
-
-
+	if (ensure(ProjectileMovement)) {
+		ProjectileMovement->SetVelocityInLocalSpace(FVector::ForwardVector * Speed);
+		ProjectileMovement->Activate();
+	}
 }

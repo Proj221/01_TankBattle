@@ -9,6 +9,7 @@
 // Forward Declaration
 class UTankBarrel; 
 class UTankTurret;
+class AProjectile;
 
 // Enum for aiming states
 UENUM()
@@ -31,10 +32,13 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	void AimAt(FString OurTankName, FVector OUTHitLocation, float LaunchSpeed);
+	void AimAt(FVector OUTHitLocation);
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
+
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void SetFire();
 
 protected:
 	// Called when the game starts
@@ -48,6 +52,17 @@ private:
 	UTankTurret* Turret = nullptr;
 	void MoveBarrelTowards(FVector AimDirection);
 	void MoveTurretTowards(FVector AimDirection);
+
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	float LaunchSpeed = 4000; // sensible starting value, 1000 m/s
+
+	// set fire rate
+	float ReloadTimeInSecond = 3;
+	double LastFireTime = 0;
+
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
+	// UClass* ProjectileBlueprint; // Alternative...A
+	TSubclassOf<AProjectile> ProjectileBlueprint; // Alternative...B
 	
 
 };
