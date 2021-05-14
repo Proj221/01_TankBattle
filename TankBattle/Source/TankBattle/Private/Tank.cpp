@@ -3,7 +3,6 @@
 
 #include "Tank.h"
 #include "TankAimingComponent.h"
-#include "TankMovementComponent.h"
 #include "TankBarrel.h"
 #include "Projectile.h"
 
@@ -17,9 +16,6 @@ ATank::ATank()
 
 	// no need to add protection to pointers as added at constructor
 	// TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
-	
-	// TankMovementComponent is removed to a composite of the tank_bp, if this is not commented, the tankmovementcompoenet is considered like tankaimingcomponent, as a subobject
-	//TankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("Movement Component"));
 
 	auto TankName = GetName();
 	UE_LOG(LogTemp, Warning, TEXT("%s HUAWEI: TANK CPP CONSTRUCT"), *TankName);
@@ -31,6 +27,8 @@ void ATank::BeginPlay() {
 	Super::BeginPlay();
 	auto TankName = GetName();
 	UE_LOG(LogTemp, Warning, TEXT("%s HUAWEI: TANK CPP BEGINPLAY"), *TankName);
+
+	TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
 }
 
 /*
