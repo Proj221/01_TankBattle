@@ -74,7 +74,7 @@ void UTankAimingComponent::AimAt(FVector OUTHitLocation) {
 	{
 		AimDirection = OUTLaunchVelocity.GetSafeNormal();
 		// UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"), *OurTankName, *AimDirection.ToString());
-		MoveBarrelTowards();
+		// MoveBarrelTowards();
 		MoveTurretTowards();
 		// auto Time = GetWorld()->GetTimeSeconds();
 		// UE_LOG(LogTemp, Warning, TEXT("Aim Solution Found!"), Time);
@@ -113,6 +113,8 @@ void UTankAimingComponent::MoveTurretTowards() {
 
 	// UE_LOG(LogTemp, Warning, TEXT("TurretAimAsRotator: %s"), *DeltaRotator.ToString());
 
+
+	Barrel->Elevate(DeltaRotator.Pitch); // the pitch angle will be clamped in the tank barrel elevate.
 	// here is to avoid the turret to rotate in the shortest way
 	// avoid to yaw in the long way
 	if (FMath::Abs(DeltaRotator.Yaw) < 180) {
@@ -141,6 +143,6 @@ void UTankAimingComponent::SetFire() {
 bool UTankAimingComponent::IsBarrelMoving() {
 	if (!ensure(Barrel)) { return false; }
 	auto BarrelForwardVector = Barrel->GetForwardVector();
-	return !BarrelForwardVector.Equals(AimDirection, 0.01);
+	return !BarrelForwardVector.Equals(AimDirection, 0.1);
 
 }
