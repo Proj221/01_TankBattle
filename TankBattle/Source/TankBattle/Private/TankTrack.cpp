@@ -4,9 +4,13 @@
 #include "TankTrack.h"
 
 UTankTrack::UTankTrack(){
-	PrimaryComponentTick.bCanEverTick = true;	//  should this tick??? NO
+	PrimaryComponentTick.bCanEverTick = true;	//  should this tick??? YES
 }
 
+void UTankTrack::BeginPlay() {
+	Super::BeginPlay();
+	OnComponentHit.AddDynamic(this, &UTankTrack::OnHit);
+}
 
 // Called every frame
 void UTankTrack::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -22,6 +26,11 @@ void UTankTrack::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompo
 	auto TankRoot = Cast<UStaticMeshComponent>(GetOwner()->GetRootComponent());
 	auto CorrectionForce = CorrectionAcceleration * (TankRoot->GetMass()) / 2;
 	TankRoot->AddForce(CorrectionForce);
+}
+
+void UTankTrack::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit) {
+	UE_LOG(LogTemp, Warning, TEXT("I AM HIT!!!"));
+
 }
 
 void UTankTrack::SetThrottle(float throttle) {
