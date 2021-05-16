@@ -37,8 +37,9 @@ void ATankPlayerController::AimTowardsCrosshair() {
 	if (!ensure(GetControlledTank())) { return; }
 
 	FVector OUTHitLocation;
-
-	if (GetSightRayHitLocation(OUTHitLocation)) { // has side-effect, is going to line trace
+	bool bGotHitLocation = GetSightRayHitLocation(OUTHitLocation);
+	// UE_LOG(LogTemp, Warning, TEXT("bGotHitLocaiton: %i"), bGotHitLocation)
+	if (bGotHitLocation) { // has side-effect, is going to line trace
 		// tell controlled tank to aim at this point
 		GetControlledTank()->FindComponentByClass<UTankAimingComponent>()->AimAt(OUTHitLocation);
 	}	
@@ -54,10 +55,10 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& OUTHitLocation) cons
 	FVector OUTLookDirection;
 	if (LookDirection(ScreenLocation, OUTLookDirection)) {
 		// line trace that look direction, and see what we hit (up to max range)
-		GetVectorHitLocation(OUTLookDirection, OUTHitLocation);
+		return GetVectorHitLocation(OUTLookDirection, OUTHitLocation);
 	}
 	
-	return true;
+	return false;
 }
 
 bool ATankPlayerController::LookDirection(FVector2D ScreenLocation, FVector& OUTLookDirection) const {
