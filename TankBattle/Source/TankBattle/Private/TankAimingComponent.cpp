@@ -25,6 +25,9 @@ void UTankAimingComponent::BeginPlay()
 
 	// so that the first fire is after a initial reload
 	LastFireTime = FPlatformTime::Seconds();
+
+	// set letammo to total ammo
+	AmmoLeft = AmmoInTotal;
 	
 }
 
@@ -33,7 +36,10 @@ void UTankAimingComponent::BeginPlay()
 void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSecond) {
+	if (AmmoLeft <= 0) {
+		FiringStatus = EFiringStatus::NoAmmo;
+	}
+	else if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSecond) {
 		FiringStatus = EFiringStatus::Reloading;
 	}
 	else if (IsBarrelMoving()) {
@@ -46,6 +52,11 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 
 EFiringStatus UTankAimingComponent::GetFiringStatus() const {
 	return FiringStatus;
+}
+
+int UTankAimingComponent::GetLeftAmmo() const
+{
+	return AmmoLeft;
 }
 
 void UTankAimingComponent::Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet) {
@@ -133,13 +144,14 @@ void UTankAimingComponent::MoveTurretTowards() {
 void UTankAimingComponent::SetFire() {
 	// UE_LOG(LogTemp, Warning, TEXT("FIRING!"));
 
-	if (Barrel && FiringStatus != EFiringStatus::Reloading) {
+	if (Barrel && FiringStatus != EFiringStatus::Reloading && FiringStatus != EFiringStatus::NoAmmo) {
 		// spawn a projectile if there is a barrel
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("Projectile")), Barrel->GetSocketRotation(FName("Projectile")));
 
 		if (!ensure(Projectile)) { return; }
 		Projectile->LaunchProjectile(LaunchSpeed);
 		LastFireTime = FPlatformTime::Seconds();
+		AmmoLeft -= 1;
 	}
 
 }

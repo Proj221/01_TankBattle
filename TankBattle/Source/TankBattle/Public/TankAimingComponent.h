@@ -16,7 +16,8 @@ UENUM()
 enum class EFiringStatus : uint8 {
 	Locked,
 	Aiming,
-	Reloading 
+	Reloading,
+	NoAmmo
 };
 
 // Holds barrel's properties and elevate method
@@ -38,6 +39,9 @@ public:
 	void SetFire();
 
 	EFiringStatus GetFiringStatus() const;
+
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	int GetLeftAmmo() const;
 
 protected:
 	// Called when the game starts
@@ -70,6 +74,11 @@ private:
 	bool IsBarrelMoving();
 
 	FVector AimDirection;
+
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
+	int AmmoInTotal = 10;
+
+	int AmmoLeft = 0;
 	
 
 };
