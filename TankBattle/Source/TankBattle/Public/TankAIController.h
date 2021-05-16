@@ -18,6 +18,10 @@ class TANKBATTLE_API ATankAIController : public AAIController
 	GENERATED_BODY()
 
 
+protected:
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
+	float AcceptanceRadius = 8000; // How close can AI player close to the player
+
 private:
 	// virtual: my children can also inherit from me
 	// override: I will inherit from my parent with same function but change logic.
@@ -25,6 +29,6 @@ private:
 
 	virtual void Tick(float DeltaTime) override;
 	
-	float AcceptanceRadius = 1000; // How close can AI player close to the player
+
 	
 };

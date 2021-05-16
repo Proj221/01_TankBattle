@@ -44,6 +44,10 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 	}
 }
 
+EFiringStatus UTankAimingComponent::GetFiringStatus() const {
+	return FiringStatus;
+}
+
 void UTankAimingComponent::Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet) {
 	Barrel = BarrelToSet;
 	Turret = TurretToSet;
@@ -146,3 +150,4 @@ bool UTankAimingComponent::IsBarrelMoving() {
 	return !BarrelForwardVector.Equals(AimDirection, 0.1);
 
 }
+

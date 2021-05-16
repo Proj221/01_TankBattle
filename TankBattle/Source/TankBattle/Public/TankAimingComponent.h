@@ -37,6 +37,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetFire();
 
+	EFiringStatus GetFiringStatus() const;
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -54,10 +56,11 @@ private:
 	void MoveTurretTowards();
 
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
-	float LaunchSpeed = 4000; // sensible starting value, 1000 m/s
+	float LaunchSpeed = 20000; // sensible starting value, 1000 m/s
 
-	// set fire rate
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float ReloadTimeInSecond = 3;
+
 	double LastFireTime = 0;
 
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
