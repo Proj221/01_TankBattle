@@ -14,16 +14,16 @@ ATank::ATank()
 	// no need to add protection to pointers as added at constructor
 	// TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
 
-	auto TankName = GetName();
-	UE_LOG(LogTemp, Warning, TEXT("%s HUAWEI: TANK CPP CONSTRUCT"), *TankName);
+	// auto TankName = GetName();
+	// UE_LOG(LogTemp, Warning, TEXT("%s HUAWEI: TANK CPP CONSTRUCT"), *TankName);
 
 }
 
 void ATank::BeginPlay() {
 	// DO NEED THIS!!!
 	Super::BeginPlay();
-	auto TankName = GetName();
-	UE_LOG(LogTemp, Warning, TEXT("%s HUAWEI: TANK CPP BEGINPLAY"), *TankName);
+	// auto TankName = GetName();
+	// UE_LOG(LogTemp, Warning, TEXT("%s HUAWEI: TANK CPP BEGINPLAY"), *TankName);
 }
 
 /*

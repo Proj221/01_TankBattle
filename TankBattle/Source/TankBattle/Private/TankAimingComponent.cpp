@@ -48,6 +48,8 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 	else {
 		FiringStatus = EFiringStatus::Locked;
 	}
+
+	
 }
 
 EFiringStatus UTankAimingComponent::GetFiringStatus() const {
@@ -127,7 +129,7 @@ void UTankAimingComponent::MoveTurretTowards() {
 	auto DeltaRotator = AimAsRotatator - TurretRotator;
 
 	// UE_LOG(LogTemp, Warning, TEXT("TurretAimAsRotator: %s"), *DeltaRotator.ToString());
-
+	
 
 	Barrel->Elevate(DeltaRotator.Pitch); // the pitch angle will be clamped in the tank barrel elevate.
 	// here is to avoid the turret to rotate in the shortest way
