@@ -7,40 +7,29 @@
 // Sets default values
 ATank::ATank()
 {
- 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	// change the tank tick to FALSE, remove the tick method in .h
 	PrimaryActorTick.bCanEverTick = false;
-
-	// no need to add protection to pointers as added at constructor
-	// TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
-
-	// auto TankName = GetName();
-	// UE_LOG(LogTemp, Warning, TEXT("%s HUAWEI: TANK CPP CONSTRUCT"), *TankName);
-
 }
 
 void ATank::BeginPlay() {
-	// DO NEED THIS!!!
 	Super::BeginPlay();
-	// auto TankName = GetName();
-	// UE_LOG(LogTemp, Warning, TEXT("%s HUAWEI: TANK CPP BEGINPLAY"), *TankName);
+
 }
 
-/*
-// Called when the game starts or when spawned
-void ATank::BeginPlay()
-{
-	Super::BeginPlay();
+float ATank::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) {
 	
+	int32 DamagePoints = FPlatformMath::TruncToInt(DamageAmount);
+	int32 DamageToApply = FMath::Clamp(DamagePoints, 0, CurrentHealth);
+	
+	CurrentHealth -= DamageToApply;
+	UE_LOG(LogTemp, Warning, TEXT("%s CurrentHealth:%i/100"), *GetName(), CurrentHealth);
+	if (CurrentHealth <= 0) {
+		UE_LOG(LogTemp, Warning, TEXT("TANK: %s DIED!!!"), *GetName());
+	}
+	return DamageToApply;
 }
 
-// Called every frame
-void ATank::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
 
-}
-*/
+
 
 
 
