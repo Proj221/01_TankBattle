@@ -41,7 +41,7 @@ public:
 	EFiringStatus GetFiringStatus() const;
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
-	int GetLeftAmmo() const;
+	int32 GetLeftAmmo() const;
 
 protected:
 	// Called when the game starts
@@ -76,9 +76,9 @@ private:
 	FVector AimDirection;
 
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
-	int AmmoInTotal = 10;
+	int32 AmmoInTotal = 10;
 
-	int AmmoLeft = 0;
+	int32 AmmoLeft = 0;
 	
 
 };
