@@ -82,7 +82,7 @@ bool ATankPlayerController::GetVectorHitLocation(FVector OUTLookDirection, FVect
 	auto StartLocation = PlayerCameraManager->GetCameraLocation();
 	auto EndLocation = StartLocation + OUTLookDirection * ReachLength;
 	// if you want to use linetracesinglebychannel(), you always first getworld()
-	if (GetWorld()->LineTraceSingleByChannel(OUTHitResult, StartLocation, EndLocation, ECollisionChannel::ECC_Visibility)) {
+	if (GetWorld()->LineTraceSingleByChannel(OUTHitResult, StartLocation, EndLocation, ECollisionChannel::ECC_Camera)) {
 		OUTHitLocation = OUTHitResult.Location;
 		// it is fun to draw a debug line here
 		// DrawDebugLine(GetWorld(), StartLocation, OUTHitLocation, FColor(255, 0, 0), false, -1.0f, 1.0f, 20.0f);
