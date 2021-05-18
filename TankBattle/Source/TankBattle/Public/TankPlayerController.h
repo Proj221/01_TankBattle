@@ -50,4 +50,9 @@ private:
 
 	bool LookDirection(FVector2D ScreenLocation, FVector& OUTLookDirection) const;
 	bool GetVectorHitLocation(FVector OUTLookDirection, FVector& OUTHitLocation) const;
+
+	virtual void SetPawn(APawn* InPawn) override;
+
+	UFUNCTION()
+	void OnPlayerTankDeath();
 };

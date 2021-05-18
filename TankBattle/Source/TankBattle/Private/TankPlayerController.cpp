@@ -23,6 +23,17 @@ void ATankPlayerController::BeginPlay() {
 		
 }
 
+void ATankPlayerController::SetPawn(APawn* InPawn) {
+	Super::SetPawn(InPawn);
+	if (InPawn) {
+		auto PossessedTank = Cast<ATank>(InPawn);
+		if (!ensure(PossessedTank)) { return; }
+
+		// subscrive our local method to the tank's death event
+		PossessedTank->OnTankDied.AddUniqueDynamic(this, &ATankPlayerController::OnPlayerTankDeath);
+	}
+}
+
 void ATankPlayerController::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
 
@@ -79,4 +90,8 @@ bool ATankPlayerController::GetVectorHitLocation(FVector OUTLookDirection, FVect
 	}
 	OUTHitLocation = FVector(0);
 	return false;
+}
+
+void ATankPlayerController::OnPlayerTankDeath() {
+	UE_LOG(LogTemp, Warning, TEXT("PLAYER: %s DIED!!!"), *GetPawn()->GetName());
 }

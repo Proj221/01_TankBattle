@@ -26,8 +26,12 @@ private:
 	// override: I will inherit from my parent with same function but change logic.
 	virtual void BeginPlay() override;
 
+	virtual void SetPawn(APawn* InPawn) override;
+
 	virtual void Tick(float DeltaTime) override;
 	
+	UFUNCTION()
+	void OnTankDeath();
 
 	
 };
