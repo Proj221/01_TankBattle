@@ -45,15 +45,15 @@ ATank* ATankPlayerController::GetControlledTank() const {
 }
 
 void ATankPlayerController::AimTowardsCrosshair() {
-	if (!ensure(GetControlledTank())) { return; }
-
-	FVector OUTHitLocation;
-	bool bGotHitLocation = GetSightRayHitLocation(OUTHitLocation);
-	// UE_LOG(LogTemp, Warning, TEXT("bGotHitLocaiton: %i"), bGotHitLocation)
-	if (bGotHitLocation) { // has side-effect, is going to line trace
-		// tell controlled tank to aim at this point
-		GetControlledTank()->FindComponentByClass<UTankAimingComponent>()->AimAt(OUTHitLocation);
-	}	
+	if (GetControlledTank()) {
+		FVector OUTHitLocation;
+		bool bGotHitLocation = GetSightRayHitLocation(OUTHitLocation);
+		// UE_LOG(LogTemp, Warning, TEXT("bGotHitLocaiton: %i"), bGotHitLocation)
+		if (bGotHitLocation) { // has side-effect, is going to line trace
+			// tell controlled tank to aim at this point
+			GetControlledTank()->FindComponentByClass<UTankAimingComponent>()->AimAt(OUTHitLocation);
+		}
+	}
 }
 
 // get world location is linetrace thru crosshair, return true if it hits the landscape
@@ -93,5 +93,14 @@ bool ATankPlayerController::GetVectorHitLocation(FVector OUTLookDirection, FVect
 }
 
 void ATankPlayerController::OnPlayerTankDeath() {
-	UE_LOG(LogTemp, Warning, TEXT("PLAYER: %s DIED!!!"), *GetPawn()->GetName());
+	auto GetPlayerTank = GetPawn();
+	if (GetPlayerTank) {
+		UE_LOG(LogTemp, Warning, TEXT("PLAYER: %s DIED!!!"), *GetPawn()->GetName());
+		StartSpectatingOnly();
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("YOU ARE SPECULATING THE TANK WORLD"));
+	}
+	
+	
 }

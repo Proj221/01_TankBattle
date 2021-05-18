@@ -33,6 +33,6 @@ private:
 	int32 StartingHealth = 100;
 
 	UPROPERTY(EditDefaultsOnly, Category = Health)
-	int32 CurrentHealth = StartingHealth;
+	int32 CurrentHealth = 100;
 
 };

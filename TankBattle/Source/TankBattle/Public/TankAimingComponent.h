@@ -62,7 +62,7 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float LaunchSpeed = 20000; // sensible starting value, 1000 m/s
 
-	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	UPROPERTY(EditAnywhere, Category = Firing)
 	float ReloadTimeInSecond = 3;
 
 	double LastFireTime = 0;
