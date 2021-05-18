@@ -13,6 +13,9 @@ class TANKBATTLE_API ATank : public APawn
 public:
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
+	UFUNCTION(BlueprintPure, Category = "Health")
+	float GetHealthPercent();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
