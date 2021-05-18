@@ -3,6 +3,7 @@
 
 #include "TankAIController.h"
 #include "TankAimingComponent.h"
+#include "Tank.h"
 #include <Runtime/Engine/Public/DrawDebugHelpers.h>
 
 void ATankAIController::BeginPlay() {
@@ -14,7 +15,7 @@ void ATankAIController::BeginPlay() {
 void ATankAIController::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
 
-	auto ControlledTank = GetPawn();
+	auto ControlledTank = (GetPawn());
 	auto PlayerTank = (GetWorld()->GetFirstPlayerController()->GetPawn());
 
 	if (PlayerTank && ControlledTank) {

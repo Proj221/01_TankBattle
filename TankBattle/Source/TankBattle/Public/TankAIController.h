@@ -19,7 +19,7 @@ class TANKBATTLE_API ATankAIController : public AAIController
 
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
-	float AcceptanceRadius = 8000; // How close can AI player close to the player
+	float AcceptanceRadius = 3000; // How close can AI player close to the player
 
 private:
 	// virtual: my children can also inherit from me
